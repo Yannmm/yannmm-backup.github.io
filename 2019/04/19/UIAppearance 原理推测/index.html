@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="chinese">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="UIAppearance 是这样一套机制：开发者使用特定接口、以 class 为单位，统一配置对象外观，但不会覆盖之前的设置。本文分析其实现，提出猜测，并验证。 12345678910// 全局配置UIView *appearance = [UIView appearance]; // 获取特定 appearance proxyappearance.backgroundColor = [UICol">
+<meta property="og:type" content="article">
+<meta property="og:title" content="探索 UIAppearance">
+<meta property="og:url" content="http://yoursite.com/2019/04/19/UIAppearance 原理推测/index.html">
+<meta property="og:site_name" content="yannmm&#39;s blog">
+<meta property="og:description" content="UIAppearance 是这样一套机制：开发者使用特定接口、以 class 为单位，统一配置对象外观，但不会覆盖之前的设置。本文分析其实现，提出猜测，并验证。 12345678910// 全局配置UIView *appearance = [UIView appearance]; // 获取特定 appearance proxyappearance.backgroundColor = [UICol">
+<meta property="og:locale" content="chinese">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1g26ydpcotuj30j613m11i.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1g27n27snkhj30tg0n2q6s.jpg">
+<meta property="og:updated_time" content="2019-04-20T09:15:35.931Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="探索 UIAppearance">
+<meta name="twitter:description" content="UIAppearance 是这样一套机制：开发者使用特定接口、以 class 为单位，统一配置对象外观，但不会覆盖之前的设置。本文分析其实现，提出猜测，并验证。 12345678910// 全局配置UIView *appearance = [UIView appearance]; // 获取特定 appearance proxyappearance.backgroundColor = [UICol">
+<meta name="twitter:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1g26ydpcotuj30j613m11i.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/19/UIAppearance 原理推测/">
+
+
+
+
+
+  <title>探索 UIAppearance | yannmm's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="chinese">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">yannmm's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/19/UIAppearance 原理推测/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yannmm">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yannmm's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">探索 UIAppearance</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-19T09:32:14+08:00">
+                2019-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>UIAppearance 是这样一套机制：开发者使用特定接口、以 class 为单位，统一配置对象外观，但不会覆盖之前的设置。本文分析其实现，提出猜测，并验证。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 全局配置</span><br><span class="line">UIView *appearance = [UIView appearance]; // 获取特定 appearance proxy</span><br><span class="line">appearance.backgroundColor = [UIColor redColor]; </span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">// 使用</span><br><span class="line">UIView *view = [UIView new];</span><br><span class="line">view.frame = CGRectMake(100, 100, 200, 200);</span><br><span class="line">[self.view addSubview: view]; // 背景颜色红色</span><br></pre></td></tr></table></figure>
+<h3 id="全局配置"><a href="#全局配置" class="headerlink" title="全局配置"></a>全局配置</h3><p>要实现全局配置，必须将保存配置信息，逻辑如下：</p>
+<ul>
+<li>appearance 方法根据消息接收者，即 class object 返回不同代理对象，记录随后的配置操作；</li>
+<li>配置操作实际上被转换成 selector、target 和参数保存；</li>
+</ul>
+<p>问题是，如何避免覆盖开发者自己的设置？例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 配置代码同上</span><br><span class="line">// 使用</span><br><span class="line">UIView *view = [UIView new];</span><br><span class="line">view.backgroundColor = [UIColor yellowColor]; // 不想用红色，想用黄色</span><br><span class="line">view.frame = CGRectMake(100, 100, 200, 200);</span><br><span class="line">[self.view addSubview: view]; // 黄色</span><br></pre></td></tr></table></figure>
+<p>根据<a href="http://petersteinberger.com/blog/2013/uiappearance-for-custom-views/" target="_blank" rel="noopener">UIAppearance for Custom Views</a>，apple 使用方法解决这个问题，基本代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// setBackgroundColor_new 是新实现，setBackgroundColor是原始实现</span><br><span class="line">static BOOL hasInvoked = NO; // 标识位，记录是否调执行过</span><br><span class="line">- (void)setBackgroundColor_new: (UIColor *)color &#123;</span><br><span class="line">	hasInvoked = YES;</span><br><span class="line">	setBackgroundColor(color);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 需要执行全局配置时</span><br><span class="line">if (!hasInvoked) &#123; // 没有执行过，使用全局配置</span><br><span class="line">	setBackgroundColor(color);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们也可以定义一个 UIView 子类，重写其 setBackgroundColor: 方法，在其中打断点，调用栈如下：</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1g26ydpcotuj30j613m11i.jpg" alt="图1"></p>
+<p>从上向下看：</p>
+<ul>
+<li>L0~L2：setter 通过<code>NSInvocation</code>执行，后者等同于 selector + target + arguments；</li>
+<li>L4：UIView 为 appearance 留下的入口；</li>
+<li>L7：私有类<code>_UIAppearance</code>，应该是 appearance 返回对象的真身，后面再说；</li>
+<li>L8~L14：视图结构发生变化时触发的一系列方法，全局配置在此时生效；</li>
+</ul>
+<hr>
+<h3 id="UIAppearanceContainer-和-UI-APPEARANCE-SELECTOR"><a href="#UIAppearanceContainer-和-UI-APPEARANCE-SELECTOR" class="headerlink" title="UIAppearanceContainer 和  UI_APPEARANCE_SELECTOR"></a>UIAppearanceContainer 和  UI_APPEARANCE_SELECTOR</h3><p>UIAppearance 的文档中还提到了UIAppearanceContainer 和  UI_APPEARANCE_SELECTOR，三者的关系如下：</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1g27n27snkhj30tg0n2q6s.jpg" alt="图2"></p>
+<p>UIAppearance 的遵守者需使用 UI_APPEARANCE_SELECTOR 标记方法和属性；UIAppearance 对象可以被 UIAppearanceContainer 对象包含，从而实现结构化配置。</p>
+<p>然而，经过测试，不加 UI_APPEARANCE_SELECTOR 标记一样可以配置。通过观察定义，我们发现它是一个 <a href="https://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html#Function-Attributes" target="_blank" rel="noopener">GCC attribute</a>，annotate 等同于注释，并无实际意义。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define UI_APPEARANCE_SELECTOR __attribute__((annotate(&quot;ui_appearance_selector&quot;)))</span><br></pre></td></tr></table></figure>
+<h3 id="关于-UIAppearance"><a href="#关于-UIAppearance" class="headerlink" title="关于 _UIAppearance"></a>关于 _UIAppearance</h3><p>_UIAppearance 利用 NSInvocation 保存配置操作，这里是它的 <a href="https://github.com/nst/iOS-Runtime-Headers/blob/2d1452d163050ef211efed237de1ea132823fc8c/Frameworks/UIKit.framework/UIAppearance.h" target="_blank" rel="noopener">header</a>。</p>
+<p>下述代码查找某个类的 appearance 配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 方法1:使用 objc_msgSend</span><br><span class="line">typedef id (*func_type)(void *, SEL, Class, id);</span><br><span class="line">func_type send_message = (func_type)objc_msgSend;</span><br><span class="line">id appearance1 = send_message((__bridge void *)(NSClassFromString(@&quot;_UIAppearance&quot;)), @selector(_appearanceForClass:withContainerList:), [SampleView class], nil);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 方法2：使用 performSelector</span><br><span class="line">id appearance2 = [NSClassFromString(@&quot;_UIAppearance&quot;) performSelector:@selector(_appearanceForClass:withContainerList:) withObject:[SampleView class] withObject:nil];</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;%@&quot;, appearance1);</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;_UIAppearance:0x600001e2cb40&gt; &lt;Customizable class: SampleView&gt; with invocations (</span><br><span class="line">    &quot;&lt;NSInvocation: 0x600000535900&gt;&quot;</span><br><span class="line">)&gt;</span><br></pre></td></tr></table></figure>
+<p>不难看出，这个 appearance 对象属于 SampleView，包含一项配置。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/20/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">yannmm</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#全局配置"><span class="nav-number">1.</span> <span class="nav-text">全局配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UIAppearanceContainer-和-UI-APPEARANCE-SELECTOR"><span class="nav-number">2.</span> <span class="nav-text">UIAppearanceContainer 和  UI_APPEARANCE_SELECTOR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于-UIAppearance"><span class="nav-number">3.</span> <span class="nav-text">关于 _UIAppearance</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yannmm</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
