@@ -249,6 +249,211 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/24/2019-06-25#容器视图控制器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yannmm">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yannmm's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/24/2019-06-25#容器视图控制器/" itemprop="url">容器视图控制器</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-24T13:29:44+08:00">
+                2019-06-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/开发/" itemprop="url" rel="index">
+                    <span itemprop="name">开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h3><p>作为一名 iOS 开发者， “UIViewController 到底是干嘛的？” 这个问题一直让我感到困惑。说来惭愧，早已不是新手的我不但没能搞懂这个问题，更经常拿“会用就行，细节不重要”之类的话安慰自己，不求甚解，得过且过。直到最近，又一次因为项目需要，必须自行实现容器控制器。经过一番搜索，查阅之后，终有所感悟，特此记录。</p>
+<h3 id="组合"><a href="#组合" class="headerlink" title="组合"></a>组合</h3><p>同类对象组合，形成特定结构，是 UIKit 中常见的设计模式。例如，UIView 组成 view hierarchy，UIResponder 组成 responder chain。类似的，视图控制器之间也可以互相组合，有两种方式：</p>
+<ol>
+<li><a href="https://developer.apple.com/design/human-interface-guidelines/ios/app-architecture/modality/" target="_blank" rel="noopener">modal presentation</a> - 基于当前视图，展示另一个控制器的视图，阻断下层视图的交互</li>
+<li>容器控制器 - 一个控制器同时持有一个或多个子控制器，将它们的视图据为己用</li>
+</ol>
+<p>说到这里，很多人会有一个疑问：为什么（要组合控制器）？有什么好处？如果单纯只是为了借用其他控制器的视图，直接加入当前视图结构不就行了？</p>
+<p>然而，除开管理视图，控制器还有许多重要职责。其中最具代表性的，当属转发各种视图事件：</p>
+<ul>
+<li>viewWillAppear</li>
+<li>viewDidAppear</li>
+<li>viewWillDisappear</li>
+<li>viewDidDisappear</li>
+</ul>
+<p>这些方法对于开发的重要性不言而喻。仅将视图加入当前视图结构，是不会触发这些方法的。</p>
+<p>今天我们将探讨第二种组合方式：容器控制器。思考 UIKit 是如何实现这类控制器的；自己实现时如何组织思路，要注意哪些细节；最后，回答开篇的问题： “UIViewController 到底是干嘛的？” 。</p>
+<h3 id="UINavigationController"><a href="#UINavigationController" class="headerlink" title="UINavigationController"></a>UINavigationController</h3><p>UINavigationController 是 UIKit 中最具代表性的容器控制器（当然还有 UITabBarController）。或许我们早已习惯它的存在，本着够用就好的原则，很少考虑其实现原理。换句话说，如果让你自行实现一个导航控制器，要解决哪些问题呢？例如：</p>
+<ul>
+<li>如何处理导航栏与子控制器关系的？</li>
+<li>如何触发子控制器的视图事件？</li>
+<li>两个子控制器之间如何过渡？</li>
+<li>如何实现手势返回？</li>
+</ul>
+<p>当然，本文的目的不是回答上述问题。而是想强调没有什么黑魔法，只要我们愿意，一样可以实现功能极为复杂的容器控制器。</p>
+<h3 id="套路"><a href="#套路" class="headerlink" title="套路"></a>套路</h3><p>首先必须明确，容器控制器的目标在于建立两套联系：</p>
+<ol>
+<li>父控制器与子控制器之间的联系</li>
+<li>视图结构</li>
+</ol>
+<p>从功能出发，容器控制器必须能够添加、删除子控制器，这里给出如下套路，照搬即可：</p>
+<p>添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">UIViewController *child = [UIViewController new];</span><br><span class="line">[self addChildViewController:child]; // 1. willMoveToParentViewController</span><br><span class="line">[self.view addSubview:child.view]; // 2</span><br><span class="line">[child didMoveToParentViewController:self]; // 3</span><br></pre></td></tr></table></figure>
+<ol>
+<li>建立父子关系。注意，这个方法首先自动调用子控制器的<code>willMoveToParentViewController:</code>，通知其即将加入父控制器；</li>
+<li>将子控制器视图加入自己的视图结构；</li>
+<li>通知子控制器，它已加入父控制器；</li>
+</ol>
+<p>删除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[child willMoveToParentViewController: nil]; // 1</span><br><span class="line">[child.view removeFromSuperview]; // 2</span><br><span class="line">[child removeFromParentViewController]; //3 didMoveToParentViewController</span><br></pre></td></tr></table></figure>
+<ol>
+<li>通知子控制器，其即将被移出父控制器；</li>
+<li>将子控制器视图移出视图结构；</li>
+<li>解除父子关系。注意，这个方法最后调用<code>didMoveToParentViewController</code>，通知子控制器父子关系已经解除。</li>
+</ol>
+<h3 id="转发视图事件"><a href="#转发视图事件" class="headerlink" title="转发视图事件"></a>转发视图事件</h3><p>UIKit 不推荐直接调用子控制器的视图事件方法，而是使用 <code>beginAppearanceTransition:animated:</code> 和 <code>endAppearanceTransition</code>。我们需要基于自定义容器控制器的显示特点，在合适的地方调用这两个方法。显然，这将大大增加工作量。所幸，UIKit 提供 <code>shouldAutomaticallyForwardAppearanceMethods</code> 自动转发视图事件。 但其工作原理并不透明。手动转发 vs. 自动转发，孰优孰劣暂时无法给出结论， 有机会的我们将在另一片文章中比较。</p>
+<h3 id="视图控制器的责任"><a href="#视图控制器的责任" class="headerlink" title="视图控制器的责任"></a>视图控制器的责任</h3><p>现在，我想回答最初的问题：”UIViewController 到底是干嘛的？”</p>
+<p>搞清这个问题其实很简单：打开苹果文档，找到 UIViewController Reference，查看它的 topics，每个 topic 都是它的一项职责，包括但不限于：</p>
+<ul>
+<li>segue - 转场</li>
+<li>view events - 视图事件</li>
+<li>modal presentation - 阻断式显示</li>
+<li>safe area - 安全区域</li>
+<li>rotation - 屏幕旋转</li>
+<li>3D touch</li>
+<li>status bar</li>
+<li>containment - 容器控制器</li>
+</ul>
+<p>不难看出，上述职责或多或少都与显示有关，但又不是纯显示，所以下放给 UIView 是不合适的。能够履行这些职责，并根据要求操作视图的对象，才是合理人选。视图控制器这个名字，完美阐释了它的定位，苹果在设计模式方面的功底可见一斑。</p>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><ul>
+<li><a href="https://developer.apple.com/documentation/uikit/uiviewcontroller" target="_blank" rel="noopener">UIViewController Reference</a></li>
+<li><a href="https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/" target="_blank" rel="noopener">View Controller Programming Guide for iOS</a></li>
+<li><a href="https://www.objc.io/issues/1-view-controllers/containment-view-controller/" target="_blank" rel="noopener">View Controller Containment</a></li>
+</ul>
+<p><a href="https://www.objc.io/issues/12-animations/custom-container-view-controller-transitions/" target="_blank" rel="noopener">https://www.objc.io/issues/12-animations/custom-container-view-controller-transitions/</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/23/2019-04-23#URL 概念与比较/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -383,11 +588,11 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 一些绝对URI</span><br><span class="line">https://example.org/absolute/URI/with/absolute/path/to/resource.txt</span><br><span class="line">https://example.org/absolute/URI/with/absolute/path/to/resource</span><br><span class="line">ftp://example.org/resource.txt</span><br><span class="line">urn:ISSN:1535-3613</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/// 一些相对URI</span><br><span class="line">https://example.org/absolute/URI/with/absolute/path/to/resource.txt</span><br><span class="line">//example.org/scheme-relative/URI/with/absolute/path/to/resource.txt</span><br><span class="line">//example.org/scheme-relative/URI/with/absolute/path/to/resource</span><br><span class="line">/relative/URI/with/absolute/path/to/resource.txt</span><br><span class="line">relative/path/to/resource.txt</span><br><span class="line">../../../resource.txt</span><br><span class="line">./resource.txt#frag01</span><br><span class="line">resource.txt</span><br><span class="line">#frag01</span><br></pre></td></tr></table></figure>
 <hr>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
 <li><a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier#Examples" target="_blank" rel="noopener">Uniform Resource Identifier</a></li>
 <li><a href="https://webmasters.stackexchange.com/questions/19101/what-is-the-difference-between-a-uri-and-a-url" target="_blank" rel="noopener">What is the difference between a URI and a URL?</a></li>
 <li><a href="https://www.quora.com/What-is-the-logic-behind-using-symbol-in-file-directory-path-of-URLs" target="_blank" rel="noopener">What is the logic behind using symbol ‘~’ in file directory path of URLs?</a></li>
-</ol>
+</ul>
 
           
         
@@ -774,7 +979,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -785,7 +990,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
