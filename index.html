@@ -249,7 +249,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/24/2019-06-25#容器视图控制器/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/11/2019-08-12#发起 Pull Request/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="yannmm">
@@ -268,7 +268,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/06/24/2019-06-25#容器视图控制器/" itemprop="url">容器视图控制器</a></h1>
+                <a class="post-title-link" href="/2019/08/11/2019-08-12#发起 Pull Request/" itemprop="url">发起 Pull Request</a></h1>
         
 
         <div class="post-meta">
@@ -280,8 +280,570 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-24T13:29:44+08:00">
-                2019-06-24
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-11T22:48:30+08:00">
+                2019-08-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/代码/" itemprop="url" rel="index">
+                    <span itemprop="name">代码</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="https://www.atlassian.com/dam/jcr:d7da7d4a-f994-4c24-90c7-3a5fa7a522aa/hero.svg" alt></p>
+<p><strong>工作原理 / 实例 / 下一步</strong></p>
+<p>Pull Request 极大的方便了我们在 Bitbucket 上进行开发协作。通过网页展示待合并修改及相关讨论，大大提升了用户体验。</p>
+<p><img src="https://www.atlassian.com/dam/jcr:ff6b00cc-0ca3-4d5b-8235-8d4cbcedd19e/01.svg" alt></p>
+<p>简单来说，Pull Request 是一种通知机制，提醒相关人员功能已经开发完毕。分支上的工作完成后，通过 Bitbucket 账户发起 Pull Request，请求代码审查，进而合并功能。</p>
+<p>但是 Pull Request 绝不仅限于通知 —— 它更是一种组织讨论的形式。团队成员可以提问，给出建议和反馈，甚至直接作出修改，所有活动都记录在案。</p>
+<p><img src="https://www.atlassian.com/dam/jcr:dc1a0821-efd6-4852-b7e6-c3a787656c61/02.svg" alt></p>
+<p>与其他合作模式相比，Pull Request 的工作流程更为线性。虽然 SVN 和 Git 都能够借助脚本自动发送通知邮件；但讨论只能通过邮件进行，此时如果继续提交修改，经常会让人感到迷惑。Pull Request 使用网页组织信息和功能，入口就在仓库旁边，大大提升了用户体验。</p>
+<h3 id="Pull-Request-的组成"><a href="#Pull-Request-的组成" class="headerlink" title="Pull Request 的组成"></a>Pull Request 的组成</h3><p>Pull Request 意味请求其他开发者（如项目维护者）将我们开发完成的代码（分支）合并到他所管理的仓库。为此，必须提供4条关键信息：原仓库，原分支，目标仓库，目标分支。</p>
+<p><img src="https://www.atlassian.com/dam/jcr:3a777a86-6106-4484-b75d-f2f19abc0e7f/03.svg" alt></p>
+<p>Bitbucket通常能够自动填写这些信息。但不同合作流程的信息可能变化。上图表示将新功能合并至官方仓库的 master 分支，但 Pull Request 的用法远不止于此。</p>
+<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><p>Pull Request 适用于以下工作流程：<a href="https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow" target="_blank" rel="noopener">Feature Branch Worflow</a>，<a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow" target="_blank" rel="noopener">Gitflow Workflow</a>，<a href="https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow" target="_blank" rel="noopener">Forking workflow</a>。基于前提是分支或仓库不同，所以 Pull Request 并不适用于 <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/centralized-workflow" target="_blank" rel="noopener">Centralized Workflow</a>。不同流程下 Pull Request 的使用方式不一样，但大致可以归纳为：</p>
+<ol>
+<li>开发者在本地分支上实现功能；</li>
+<li>开发者推送本地分支到公共仓库；</li>
+<li>开发者使用 Bitbucket 提交 PR；</li>
+<li>其他人审查代码，提出意见，做出修改；</li>
+<li>项目维护者合并代码至官方仓库，随后关闭 Pull Request。</li>
+</ol>
+<p>下面我们逐一说明 Pull Request 在各种流程下的使用。</p>
+<h3 id="Feature-Branch-Workflow-与-Pull-Requests"><a href="#Feature-Branch-Workflow-与-Pull-Requests" class="headerlink" title="Feature Branch Workflow 与 Pull Requests"></a>Feature Branch Workflow 与 Pull Requests</h3><p>所有开发者利用同一个共享仓库进行协作，基于功能创建分支。开发完成后提交 Pull Request，围绕功能展开讨论，最后将代码合并至 master 分支。</p>
+<p><img src="https://www.atlassian.com/dam/jcr:8c784aa1-3393-49b7-b4c5-2b91bf3aa48a/04.svg" alt></p>
+<p>由于只有一个公共仓库，所以 Pull Request 的两个仓库相同。一般来说，功能分支为原分支，master 为目标分支。</p>
+<p>项目维护者必须在收到 Pull Request 后采取行动：功能符合要求，合并然后关闭 Pull Request；如果遇到问题，则给出反馈，后续修改将随后显示。</p>
+<p>还可以在功能完成前开启 Pull Request。举例来说，假设我们在开发过程中遇到困难，就可以提前开启包含当前工作进度的 Pull Request，邀请其他开发者提供建议，甚至直接修改代码。</p>
+<h3 id="Gitflow-Workflow-与-Pull-Requests"><a href="#Gitflow-Workflow-与-Pull-Requests" class="headerlink" title="Gitflow Workflow 与 Pull Requests"></a>Gitflow Workflow 与 Pull Requests</h3><p>流程与 Feature Branch Workflow 类似，但针对项目发布制定了严格的分支策略，借助 Pull Request 讨论项目的发布与维护。</p>
+<p><img src="https://www.atlassian.com/dam/jcr:50c76de3-6c5b-4adf-9a96-a611cc3dbebc/05.svg" alt><br><img src="https://www.atlassian.com/dam/jcr:a5c54fd9-09d7-4f59-90c1-8b228fec80a5/06.svg" alt></p>
+<p>Pull Request 的作用与之前一样，通知团队成员分支代码需要审核。</p>
+<p>功能代码一般合并至开发分支；发布和修复代码可以合并至开发 或 master 分支。Pull Request 的作用就在于正式管理这些合并。</p>
+<h3 id="Forking-Workflow-与-Pull-Requests"><a href="#Forking-Workflow-与-Pull-Requests" class="headerlink" title="Forking Workflow 与 Pull Requests"></a>Forking Workflow 与 Pull Requests</h3><p>此流程要求开发者将已完成的功能推送至自己的公共仓库，而非共享仓库。然后提交 Pull Request ，通知项目维护者审核。</p>
+<p>Pull Request 在此流程中扮演非常重要的角色，这是项目维护者了解他人开发工作的唯一途径。</p>
+<p><img src="https://www.atlassian.com/dam/jcr:2510a321-ba5f-4c31-82ec-f3ad062c8e6d/07.svg" alt></p>
+<p>由于每位开发者都有自己的公共仓库， 此时显然 Pull Request 的两个仓库不同。原仓库对应开发者的公共仓库，原分支对应功能分支。假设我们想让自己的修改成为基础代码的一部分，则目标仓库对应官方仓库，目标分支对应 master 分支。</p>
+<p>第三方开发者之间还可以通过 Pull Request 展开协作。假设我们正在与队友合作开发，基于同一个功能分支，针对对方仓库发起 Pull Request （而非主仓库）即可。</p>
+<p><img src="https://www.atlassian.com/dam/jcr:0907a594-5786-47fb-87b4-05fc08e0c8dc/08.svg" alt></p>
+<p>两位开发者利用 Pull Request 沟通，共同开发。功能完成后，其中一个人再发起一个 Pull Request，请求合并到官方仓库。由此可见 Pull Request 的强大，是不可或缺的协作工作。</p>
+<h2 id="举个栗子-🌰"><a href="#举个栗子-🌰" class="headerlink" title="举个栗子 🌰"></a>举个栗子 🌰</h2><p>下面的例子将着重讲解 Pull Request 在 Forking workflow 中的运用，同样适用于小规模团队及对贡献开源项目。</p>
+<p>Mari 是开发者，John 是项目维护者。它们都有自己的公共仓库，其中 John 的是官方仓库。</p>
+<h3 id="Mary-fork-项目"><a href="#Mary-fork-项目" class="headerlink" title="Mary fork 项目"></a>Mary fork 项目</h3><p><img src="https://www.atlassian.com/dam/jcr:8b3d2111-5a88-4802-967c-71f51c248b03/09.svg" alt></p>
+<p>Mary 首先必须 fork john 的仓库才能进行开发。登陆 Bitbucket，找到仓库，点击 fork 按钮即可。</p>
+<p><img src="https://www.atlassian.com/dam/jcr:93d2ede4-241e-4296-b403-584d5ee24d8e/10.svg" alt></p>
+<p>只需填写名字和描述，她就在 Bitbucket 服务器上建立了自己的项目仓库。</p>
+<p><img src="https://www.atlassian.com/dam/jcr:4f051d96-8ce7-4aab-af74-b2de38c41443/11.svg" alt></p>
+<h3 id="Mary-clone-项目到本地"><a href="#Mary-clone-项目到本地" class="headerlink" title="Mary clone 项目到本地"></a>Mary clone 项目到本地</h3><p>接下来，Mary 将 clone 自己的仓库到本地。她执行以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://user@bitbucket.org/user/repo.git</span><br></pre></td></tr></table></figure>
+<p>注意，git clone 将远程仓库复制到本地，并自动创建名为 origin 的指针，指向对应的（Mary）远程仓库。</p>
+<p><img src="https://www.atlassian.com/dam/jcr:f0979362-cf67-413d-bac1-8275e20aea58/12.svg" alt></p>
+<h3 id="Mary-开发功能"><a href="#Mary-开发功能" class="headerlink" title="Mary 开发功能"></a>Mary 开发功能</h3><p>Mary 在本地创建功能分支，着手开发。同时这个分支会是将来 Pull Request 中的原分支。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b some-feature</span><br><span class="line"># Edit some code</span><br><span class="line">git commit -a -m &quot;Add first draft of some feature&quot;</span><br></pre></td></tr></table></figure>
+<p>开发过程中 Mary 可以尽情提交 (commit)。如果提交历史看起来很混乱，完全可以使用 <a href="https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase-i" target="_blank" rel="noopener">interactive rebase</a> 命令移除或合并提交。这对于大规模项目意义重大，清晰的历史记录意味着项目维护者能够轻易读懂开发者的意图。</p>
+<h3 id="Mary-推送功能至远程仓库"><a href="#Mary-推送功能至远程仓库" class="headerlink" title="Mary 推送功能至远程仓库"></a>Mary 推送功能至远程仓库</h3><p><img src="https://www.atlassian.com/dam/jcr:d3a07e01-ad5c-4e11-929a-87c049a27a6b/13.svg" alt></p>
+<p>开发完成后，Mary 使用 git push 命令将本地分支推送到自己的远程仓库（而非官方仓库）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin some-branch</span><br></pre></td></tr></table></figure>
+<p>这使得其他开发人员（如项目维护者）能够访问她的代码。</p>
+<h3 id="Mary-发起-Pull-Request"><a href="#Mary-发起-Pull-Request" class="headerlink" title="Mary 发起 Pull Request"></a>Mary 发起 Pull Request</h3><p><img src="https://www.atlassian.com/dam/jcr:36f8c233-ef70-41ce-8b91-4f21dd735817/14.svg" alt></p>
+<p>推送后，Mary 可以通过 Bitbucket 账户发起 Pull Request：找到自己的远程仓库， 点击右上角的 Pull Request 按钮。当前仓库默认为原仓库，Mary 需要指定原分支，目标仓库和目标分支。</p>
+<p>要想将修改成为基础代码的一部分，Mary 需要将原分支指定为自己的功能分支，指定目标仓库是 john 的官方仓库， 目标分支指定为 master 分支。此外还需要填写标题和描述。除了 John 以外，Mary 还可以邀请将除了 John 以外的任何人审阅代码，只需将他们添加为 Reviewer 即可。</p>
+<p><img src="https://www.atlassian.com/dam/jcr:0aba279b-e045-4481-a9f1-cac222865612/pull-request-7.png" alt></p>
+<p>Pull Request 一旦创建，通知会以邮件和 Bitbucket 消息的形式发送给 John。</p>
+<h3 id="John-审阅-Pull-Request"><a href="#John-审阅-Pull-Request" class="headerlink" title="John 审阅 Pull Request"></a>John 审阅 Pull Request</h3><p><img src="https://wac-cdn.atlassian.com/dam/jcr:1b30ef44-9679-49d1-bc86-8b1a0cf5e241/pull-request-8.png?cdnVersion=508" alt></p>
+<p>John 通过点击自己 Bitbucket 仓库的页面上的 <code>Pull request</code> 标签，查看所有的 Pull Request。再次点击 Mary 的 Pull Request，具体描述，提交记录及所有改动一览无余。</p>
+<p>如果一切顺利，John 只需点击 <code>Merge</code> 按钮，将修改合并至 master 分支即可。</p>
+<p>但假设 John 发现了一个小 bug，希望 Mary 在合并之前修复。那么他可以针对整个 Pull Request 或特定提交记录做出评论。</p>
+<p><img src="https://wac-cdn.atlassian.com/dam/jcr:6d9007c1-7b42-42e4-a1ca-f7129185c16d/pull-request-9.png?cdnVersion=508" alt></p>
+<h3 id="Mary-追加提交"><a href="#Mary-追加提交" class="headerlink" title="Mary 追加提交"></a>Mary 追加提交</h3><p>对于任何疑问，Mary 都可以在 Pull Request 中反馈，将其作为讨论组使用。</p>
+<p>Mary 在功能分支修改并提交，修正错误，推送到自己的远程仓库，正如她之前做的一样。这次提交被自动追加到之前的 Pull Request 中，显示在先前 John 的评论之后，便于再次审阅。</p>
+<h3 id="John-接受-Pull-Request"><a href="#John-接受-Pull-Request" class="headerlink" title="John 接受 Pull Request"></a>John 接受 Pull Request</h3><p>终于，John 接受修改，将代码合并至 master 分支，关闭 Pull Request。至此新功能被正式添加到项目中，其他开发者可以通过 git pull 命令获取更新。</p>
+<h2 id="下一步"><a href="#下一步" class="headerlink" title="下一步"></a>下一步</h2><p>你已经掌握了使用 Pull Request 所需的一切知识，是时候将它融入自己的工作流程当中了。记住，Pull Request 不是 <a href="https://www.atlassian.com/git/tutorials/comparing-workflows" target="_blank" rel="noopener">Git-based  collaboration workflows</a> 的代替品。而是在此之上，让团队协作更容易的催化剂。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/05/2019-08-07#Git Pro 读书笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yannmm">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yannmm's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/05/2019-08-07#Git Pro 读书笔记/" itemprop="url">Git Pro 读书笔记</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-05T18:36:05+08:00">
+                2019-08-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/系统与工具/" itemprop="url" rel="index">
+                    <span itemprop="name">系统与工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h3><p>man git-&lt;#command#&gt;</p>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">man git-checkout</span><br></pre></td></tr></table></figure></p>
+<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p><strong>添加配置</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global &lt;#name#&gt; &lt;#value#&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>name = section. value</li>
+<li>value will be <code>escaped</code> (<a href="https://stackoverflow.com/questions/10646142/what-does-it-mean-to-escape-a-string" target="_blank" rel="noopener">what is escape?</a>)</li>
+<li>global 表示文件位置<ul>
+<li>system: 系统级配置文件，位于 <code>/usr/local/etc/gitconfig</code></li>
+<li>global: 用户级配置文件，位于 <code>~/.gitconfig</code></li>
+<li>local: 基于 repo 的配置为年间，位于 <code>.git/config</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>查看当前配置，并显示出处</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --show-origin --list</span><br></pre></td></tr></table></figure>
+<p><strong>将 Sublime Text 3 设置为 core editor</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global core.editor &quot;/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl -n -w&quot;</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="创建仓库"><a href="#创建仓库" class="headerlink" title="创建仓库"></a>创建仓库</h3><p><strong>建立新仓库</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+<p><strong>复制已有仓库</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone &lt;#url#&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="文件状态"><a href="#文件状态" class="headerlink" title="文件状态"></a>文件状态</h3><p><img src="http://ww2.sinaimg.cn/large/006tNc79gy1g5ow2t3mp6j31f80lgach.jpg" alt></p>
+<ul>
+<li>tracked<ul>
+<li>staged</li>
+<li>modified</li>
+<li>unmodified</li>
+</ul>
+</li>
+<li>untracked</li>
+</ul>
+<p><strong>状态流转</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>untracked &gt; staged</p>
+</li>
+<li><p>modified &gt; staged</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit</span><br></pre></td></tr></table></figure>
+<ul>
+<li>staged &gt; unmodified</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm</span><br></pre></td></tr></table></figure>
+<ul>
+<li>unmodified &gt; untracked</li>
+</ul>
+<p>修改文件</p>
+<ul>
+<li>unmodified -&gt; modified</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset HEAD &lt;#文件#&gt; // 将文件退回 working directory</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Staged &gt; modified</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout &lt;#文件#&gt; // 放弃 working directory 的修改</span><br></pre></td></tr></table></figure>
+<ul>
+<li>modified &gt; unmodified</li>
+</ul>
+<p><strong>查看文件状态</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status --short</span><br></pre></td></tr></table></figure>
+<ul>
+<li>两行状态，左边staging area, 右边 working tree，同一个文件的两种状态</li>
+<li>结果为 &lt;#A#&gt; &lt;#B#&gt; 文件名，A 代表 <code>staging area</code> 的状态；B 代表 <code>working tree</code> 的状态</li>
+</ul>
+<h3 id="Commit"><a href="#Commit" class="headerlink" title="Commit"></a>Commit</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除上一个 commit，一并提交本次与上次修改，并重写 <code>commit message</code>。一般用于重写 message，或其他细节调整</li>
+</ul>
+<h3 id="查看-Log"><a href="#查看-Log" class="headerlink" title="查看 Log"></a>查看 Log</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log --stat</span><br></pre></td></tr></table></figure>
+<ul>
+<li>罗列具体修改了哪些文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log --graph</span><br></pre></td></tr></table></figure>
+<ul>
+<li>以图表形式显示 commit 历史</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log --pretty=format</span><br></pre></td></tr></table></figure>
+<ul>
+<li>例如 log –pretty=format:’%h - %an, %ar: %s’</li>
+</ul>
+<p><a href="https://blog.csdn.net/u011552182/article/details/81099905" target="_blank" rel="noopener">https://blog.csdn.net/u011552182/article/details/81099905</a></p>
+<h3 id="Remote"><a href="#Remote" class="headerlink" title="Remote"></a>Remote</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
+<ul>
+<li>罗列远程仓库</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add &lt;#name#&gt; &lt;#path#&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>添加一个远程仓库</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote show &lt;#name#&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>显示 remote 的详细信息</li>
+</ul>
+<p>本地的远程分支是对真正远程分支的记录，形如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;#remote#&gt;/&lt;#branch#&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>一个 commit 可以对应多个分支. 如果 sha1(master, origin/master)</li>
+<li>branch，tag，不管本地或者远程，都是挂在 commit 上的</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin --delete &lt;#remote/branch#&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除远程分支</li>
+</ul>
+<h3 id="Merge-amp-Rebase"><a href="#Merge-amp-Rebase" class="headerlink" title="Merge &amp; Rebase"></a>Merge &amp; Rebase</h3><p>Merge</p>
+<ul>
+<li>如果两个 commit 处于同一条历史上，没有分支，则二者将会以 fast-forward 的形式 merge，不产生新的 commit</li>
+<li>两个 commit 位于不同分支，则这是一个三方merge，tip1 + tip2 + common ancestor，产生新 commit，有两个parent</li>
+<li>发生冲突时，冲突的部分将会添加 marker，以便我们手动解决。解决后，应该通过 git add 添加到 staging area，表示冲突已解决（冲突其实就是 git 对文件做了修改，要求我们再次修改为正确的，文件的状态从 unmodified &gt; modified &gt; staged）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rebase &lt;#target branch#&gt;&lt;#base branch#&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将 base branch rebase 至 target branch</li>
+<li>不产生新的 commit</li>
+<li>结果就是所有 commit 都是线性的，没有分叉</li>
+<li>rebase 后，target branch 和 base branch merge时，只需 fast-forward 即可</li>
+<li>merge过后，base branch 可以删除</li>
+<li>绝对注意，只 rebase  私有分支，千万不要对公共分支操作</li>
+</ul>
+<p>Rebase 的步骤</p>
+<ol>
+<li>找到 common ancestor</li>
+<li>从 common ancestor 开始diff</li>
+<li>将当前分支指向目标分支 tip</li>
+<li>然后依次将 diff apply</li>
+</ol>
+<p>Rebase vs. Merge </p>
+<p>rebase 本地分支，merge 公共分支</p>
+<h3 id="Fetch-amp-Pull"><a href="#Fetch-amp-Pull" class="headerlink" title="Fetch &amp; Pull"></a>Fetch &amp; Pull</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch &lt;#remote name#&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>下载远程仓库的新内容到本地（commit, branch, tag 等）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull &lt;#remote name#&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>fetch + merge (merge 只针对当前分支)</li>
+</ul>
+<h3 id="Push"><a href="#Push" class="headerlink" title="Push"></a>Push</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push &lt;#remote#&gt; &lt;#local branch#&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将本地分支推送到远程仓库</li>
+</ul>
+<h3 id="Tag"><a href="#Tag" class="headerlink" title="Tag"></a>Tag</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag</span><br></pre></td></tr></table></figure>
+<ul>
+<li>显示所有 tag</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git show &lt;#tag#&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>显示<code>tag</code> 对应的 <code>commit</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitr push &lt;#remote#&gt; &lt;#tag#&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将某个本地 tag 推送至 remote</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push &lt;#remote#&gt; :refs/tags/&lt;#tag#&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>本地删除 tag 是不够的，需要手动在 remote 删除相应 tag</li>
+</ul>
+<hr>
+<h3 id="Branch"><a href="#Branch" class="headerlink" title="Branch"></a>Branch</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b &lt;#new branch#&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>基于当前分支创建新分支</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git chekcout -b &lt;#new branch#&gt; &lt;#remote/branch#&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>基于远程分支创建新分支d</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b &lt;#new branch#&gt; &lt;#tag#&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用特定 tag 创建新分支</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -d &lt;#branch#&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除分支</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch --merged</span><br></pre></td></tr></table></figure>
+<ul>
+<li>从当前分支（commit）开始向后，能够达到的分支</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch --no-merged</span><br></pre></td></tr></table></figure>
+<ul>
+<li>从当前分支（commit）开始向后，无法到达的分支</li>
+</ul>
+<h3 id="Tracking"><a href="#Tracking" class="headerlink" title="Tracking"></a>Tracking</h3><p>关系永远都是: 本地分支(tracking branch)追踪远程分支(upstream branch)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -u &lt;#remote/branch#&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>让当前分支追踪远程分支</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -vv</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查看所有分支的详细情况，包括他们所追踪的远程分支，以及相应进度（如果要查看一个 remote 有哪些分支，记得用 git remote show orogin）</li>
+</ul>
+<h3 id="Git-Internal"><a href="#Git-Internal" class="headerlink" title="Git Internal"></a>Git Internal</h3><p>Commit &gt;&gt;&gt; Snapshot &gt;&gt;&gt; blob (snapshot 是当时的文件结构？？？)</p>
+<p>Branch / tag &gt;&gt;&gt; commit</p>
+<p>HEAD &gt;&gt;&gt; comit</p>
+<p>commit == checksum</p>
+<p>一个 commit 可以有 1个或2个parent</p>
+<p>两个地方我们要注意</p>
+<ul>
+<li>working directory</li>
+<li>staging area</li>
+</ul>
+<hr>
+<h3 id="Workflow"><a href="#Workflow" class="headerlink" title="Workflow"></a>Workflow</h3><p><strong>术语</strong></p>
+<ul>
+<li><p>topic branch</p>
+</li>
+<li><p>integration-manager workflow</p>
+</li>
+<li>pull request</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/26/2019-06-25#容器视图控制器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yannmm">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yannmm's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/26/2019-06-25#容器视图控制器/" itemprop="url">容器视图控制器</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-26T09:06:33+08:00">
+                2019-06-26
               </time>
             
 
@@ -485,7 +1047,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-23T15:27:42+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-23T15:38:38+08:00">
                 2019-04-23
               </time>
             
@@ -592,6 +1154,183 @@
 <li><a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier#Examples" target="_blank" rel="noopener">Uniform Resource Identifier</a></li>
 <li><a href="https://webmasters.stackexchange.com/questions/19101/what-is-the-difference-between-a-uri-and-a-url" target="_blank" rel="noopener">What is the difference between a URI and a URL?</a></li>
 <li><a href="https://www.quora.com/What-is-the-logic-behind-using-symbol-in-file-directory-path-of-URLs" target="_blank" rel="noopener">What is the logic behind using symbol ‘~’ in file directory path of URLs?</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/23/2019-04-23#UIAppearance 原理推测/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yannmm">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yannmm's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/23/2019-04-23#UIAppearance 原理推测/" itemprop="url">探索 UIAppearance</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-23T15:36:24+08:00">
+                2019-04-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/代码/" itemprop="url" rel="index">
+                    <span itemprop="name">代码</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>UIAppearance 是这样一套机制：开发者使用特定接口、以 class 为单位，统一配置对象外观，但不会覆盖之前的设置。本文分析其实现，提出猜测，并验证。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 全局配置</span><br><span class="line">UIView *appearance = [UIView appearance]; // 获取特定 appearance proxy</span><br><span class="line">appearance.backgroundColor = [UIColor redColor]; </span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">// 使用</span><br><span class="line">UIView *view = [UIView new];</span><br><span class="line">view.frame = CGRectMake(100, 100, 200, 200);</span><br><span class="line">[self.view addSubview: view]; // 背景颜色红色</span><br></pre></td></tr></table></figure>
+<h3 id="全局配置"><a href="#全局配置" class="headerlink" title="全局配置"></a>全局配置</h3><p>要实现全局配置，必须将保存配置信息，逻辑如下：</p>
+<ul>
+<li>appearance 方法根据消息接收者，即 class object 返回不同代理对象，记录随后的配置操作；</li>
+<li>配置操作实际上被转换成 selector、target 和参数保存；</li>
+</ul>
+<p>问题是，如何避免覆盖开发者自己的设置？例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 配置代码同上</span><br><span class="line">// 使用</span><br><span class="line">UIView *view = [UIView new];</span><br><span class="line">view.backgroundColor = [UIColor yellowColor]; // 不想用红色，想用黄色</span><br><span class="line">view.frame = CGRectMake(100, 100, 200, 200);</span><br><span class="line">[self.view addSubview: view]; // 黄色</span><br></pre></td></tr></table></figure>
+<p>根据<a href="http://petersteinberger.com/blog/2013/uiappearance-for-custom-views/" target="_blank" rel="noopener">UIAppearance for Custom Views</a>，apple 使用方法解决这个问题，基本代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// setBackgroundColor_new 是新实现，setBackgroundColor是原始实现</span><br><span class="line">static BOOL hasInvoked = NO; // 标识位，记录是否调执行过</span><br><span class="line">- (void)setBackgroundColor_new: (UIColor *)color &#123;</span><br><span class="line">	hasInvoked = YES;</span><br><span class="line">	setBackgroundColor(color);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 需要执行全局配置时</span><br><span class="line">if (!hasInvoked) &#123; // 没有执行过，使用全局配置</span><br><span class="line">	setBackgroundColor(color);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们也可以定义一个 UIView 子类，重写其 setBackgroundColor: 方法，在其中打断点，调用栈如下：</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1g26ydpcotuj30j613m11i.jpg" alt="图1"></p>
+<p>从上向下看：</p>
+<ul>
+<li>L0~L2：setter 通过<code>NSInvocation</code>执行，后者等同于 selector + target + arguments；</li>
+<li>L4：UIView 为 appearance 留下的入口；</li>
+<li>L7：私有类<code>_UIAppearance</code>，应该是 appearance 返回对象的真身，后面再说；</li>
+<li>L8~L14：视图结构发生变化时触发的一系列方法，全局配置在此时生效；</li>
+</ul>
+<hr>
+<h3 id="UIAppearanceContainer-和-UI-APPEARANCE-SELECTOR"><a href="#UIAppearanceContainer-和-UI-APPEARANCE-SELECTOR" class="headerlink" title="UIAppearanceContainer 和  UI_APPEARANCE_SELECTOR"></a>UIAppearanceContainer 和  UI_APPEARANCE_SELECTOR</h3><p>UIAppearance 的文档中还提到了UIAppearanceContainer 和  UI_APPEARANCE_SELECTOR，三者的关系如下：</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1g27n27snkhj30tg0n2q6s.jpg" alt="图2"></p>
+<p>UIAppearance 的遵守者需使用 UI_APPEARANCE_SELECTOR 标记方法和属性；UIAppearance 对象可以被 UIAppearanceContainer 对象包含，从而实现结构化配置。</p>
+<p>然而，经过测试，不加 UI_APPEARANCE_SELECTOR 标记一样可以配置。通过观察定义，我们发现它是一个 <a href="https://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html#Function-Attributes" target="_blank" rel="noopener">GCC attribute</a>，annotate 等同于注释，并无实际意义。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define UI_APPEARANCE_SELECTOR __attribute__((annotate(&quot;ui_appearance_selector&quot;)))</span><br></pre></td></tr></table></figure>
+<h3 id="关于-UIAppearance"><a href="#关于-UIAppearance" class="headerlink" title="关于 _UIAppearance"></a>关于 _UIAppearance</h3><p>_UIAppearance 利用 NSInvocation 保存配置操作，这里是它的 <a href="https://github.com/nst/iOS-Runtime-Headers/blob/2d1452d163050ef211efed237de1ea132823fc8c/Frameworks/UIKit.framework/UIAppearance.h" target="_blank" rel="noopener">header</a>。</p>
+<p>下述代码查找某个类的 appearance 配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 方法1:使用 objc_msgSend</span><br><span class="line">typedef id (*func_type)(void *, SEL, Class, id);</span><br><span class="line">func_type send_message = (func_type)objc_msgSend;</span><br><span class="line">id appearance1 = send_message((__bridge void *)(NSClassFromString(@&quot;_UIAppearance&quot;)), @selector(_appearanceForClass:withContainerList:), [SampleView class], nil);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 方法2：使用 performSelector</span><br><span class="line">id appearance2 = [NSClassFromString(@&quot;_UIAppearance&quot;) performSelector:@selector(_appearanceForClass:withContainerList:) withObject:[SampleView class] withObject:nil];</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;%@&quot;, appearance1);</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;_UIAppearance:0x600001e2cb40&gt; &lt;Customizable class: SampleView&gt; with invocations (</span><br><span class="line">    &quot;&lt;NSInvocation: 0x600000535900&gt;&quot;</span><br><span class="line">)&gt;</span><br></pre></td></tr></table></figure>
+<p>不难看出，这个 appearance 对象属于 SampleView，包含一项配置。</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a href="http://petersteinberger.com/blog/2013/uiappearance-for-custom-views/" target="_blank" rel="noopener">UIAppearance for Custom Views</a></li>
+<li><a href="https://hyancat.com/posts/2016/04/13/UIAppearance/" target="_blank" rel="noopener">iOS UIAppearance 探秘</a></li>
 </ul>
 
           
@@ -756,183 +1495,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/19/2019-04-23#UIAppearance 原理推测/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="yannmm">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="yannmm's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/19/2019-04-23#UIAppearance 原理推测/" itemprop="url">探索 UIAppearance</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-19T09:32:14+08:00">
-                2019-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/代码/" itemprop="url" rel="index">
-                    <span itemprop="name">代码</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>UIAppearance 是这样一套机制：开发者使用特定接口、以 class 为单位，统一配置对象外观，但不会覆盖之前的设置。本文分析其实现，提出猜测，并验证。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 全局配置</span><br><span class="line">UIView *appearance = [UIView appearance]; // 获取特定 appearance proxy</span><br><span class="line">appearance.backgroundColor = [UIColor redColor]; </span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">// 使用</span><br><span class="line">UIView *view = [UIView new];</span><br><span class="line">view.frame = CGRectMake(100, 100, 200, 200);</span><br><span class="line">[self.view addSubview: view]; // 背景颜色红色</span><br></pre></td></tr></table></figure>
-<h3 id="全局配置"><a href="#全局配置" class="headerlink" title="全局配置"></a>全局配置</h3><p>要实现全局配置，必须将保存配置信息，逻辑如下：</p>
-<ul>
-<li>appearance 方法根据消息接收者，即 class object 返回不同代理对象，记录随后的配置操作；</li>
-<li>配置操作实际上被转换成 selector、target 和参数保存；</li>
-</ul>
-<p>问题是，如何避免覆盖开发者自己的设置？例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 配置代码同上</span><br><span class="line">// 使用</span><br><span class="line">UIView *view = [UIView new];</span><br><span class="line">view.backgroundColor = [UIColor yellowColor]; // 不想用红色，想用黄色</span><br><span class="line">view.frame = CGRectMake(100, 100, 200, 200);</span><br><span class="line">[self.view addSubview: view]; // 黄色</span><br></pre></td></tr></table></figure>
-<p>根据<a href="http://petersteinberger.com/blog/2013/uiappearance-for-custom-views/" target="_blank" rel="noopener">UIAppearance for Custom Views</a>，apple 使用方法解决这个问题，基本代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// setBackgroundColor_new 是新实现，setBackgroundColor是原始实现</span><br><span class="line">static BOOL hasInvoked = NO; // 标识位，记录是否调执行过</span><br><span class="line">- (void)setBackgroundColor_new: (UIColor *)color &#123;</span><br><span class="line">	hasInvoked = YES;</span><br><span class="line">	setBackgroundColor(color);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 需要执行全局配置时</span><br><span class="line">if (!hasInvoked) &#123; // 没有执行过，使用全局配置</span><br><span class="line">	setBackgroundColor(color);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们也可以定义一个 UIView 子类，重写其 setBackgroundColor: 方法，在其中打断点，调用栈如下：</p>
-<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1g26ydpcotuj30j613m11i.jpg" alt="图1"></p>
-<p>从上向下看：</p>
-<ul>
-<li>L0~L2：setter 通过<code>NSInvocation</code>执行，后者等同于 selector + target + arguments；</li>
-<li>L4：UIView 为 appearance 留下的入口；</li>
-<li>L7：私有类<code>_UIAppearance</code>，应该是 appearance 返回对象的真身，后面再说；</li>
-<li>L8~L14：视图结构发生变化时触发的一系列方法，全局配置在此时生效；</li>
-</ul>
-<hr>
-<h3 id="UIAppearanceContainer-和-UI-APPEARANCE-SELECTOR"><a href="#UIAppearanceContainer-和-UI-APPEARANCE-SELECTOR" class="headerlink" title="UIAppearanceContainer 和  UI_APPEARANCE_SELECTOR"></a>UIAppearanceContainer 和  UI_APPEARANCE_SELECTOR</h3><p>UIAppearance 的文档中还提到了UIAppearanceContainer 和  UI_APPEARANCE_SELECTOR，三者的关系如下：</p>
-<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1g27n27snkhj30tg0n2q6s.jpg" alt="图2"></p>
-<p>UIAppearance 的遵守者需使用 UI_APPEARANCE_SELECTOR 标记方法和属性；UIAppearance 对象可以被 UIAppearanceContainer 对象包含，从而实现结构化配置。</p>
-<p>然而，经过测试，不加 UI_APPEARANCE_SELECTOR 标记一样可以配置。通过观察定义，我们发现它是一个 <a href="https://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html#Function-Attributes" target="_blank" rel="noopener">GCC attribute</a>，annotate 等同于注释，并无实际意义。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define UI_APPEARANCE_SELECTOR __attribute__((annotate(&quot;ui_appearance_selector&quot;)))</span><br></pre></td></tr></table></figure>
-<h3 id="关于-UIAppearance"><a href="#关于-UIAppearance" class="headerlink" title="关于 _UIAppearance"></a>关于 _UIAppearance</h3><p>_UIAppearance 利用 NSInvocation 保存配置操作，这里是它的 <a href="https://github.com/nst/iOS-Runtime-Headers/blob/2d1452d163050ef211efed237de1ea132823fc8c/Frameworks/UIKit.framework/UIAppearance.h" target="_blank" rel="noopener">header</a>。</p>
-<p>下述代码查找某个类的 appearance 配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 方法1:使用 objc_msgSend</span><br><span class="line">typedef id (*func_type)(void *, SEL, Class, id);</span><br><span class="line">func_type send_message = (func_type)objc_msgSend;</span><br><span class="line">id appearance1 = send_message((__bridge void *)(NSClassFromString(@&quot;_UIAppearance&quot;)), @selector(_appearanceForClass:withContainerList:), [SampleView class], nil);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 方法2：使用 performSelector</span><br><span class="line">id appearance2 = [NSClassFromString(@&quot;_UIAppearance&quot;) performSelector:@selector(_appearanceForClass:withContainerList:) withObject:[SampleView class] withObject:nil];</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;%@&quot;, appearance1);</span><br></pre></td></tr></table></figure>
-<p>输出：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;_UIAppearance:0x600001e2cb40&gt; &lt;Customizable class: SampleView&gt; with invocations (</span><br><span class="line">    &quot;&lt;NSInvocation: 0x600000535900&gt;&quot;</span><br><span class="line">)&gt;</span><br></pre></td></tr></table></figure>
-<p>不难看出，这个 appearance 对象属于 SampleView，包含一项配置。</p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
-<li><a href="http://petersteinberger.com/blog/2013/uiappearance-for-custom-views/" target="_blank" rel="noopener">UIAppearance for Custom Views</a></li>
-<li><a href="https://hyancat.com/posts/2016/04/13/UIAppearance/" target="_blank" rel="noopener">iOS UIAppearance 探秘</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -979,7 +1541,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -990,7 +1552,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -1001,7 +1563,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

@@ -83,13 +83,13 @@
 <meta name="keywords" content="UIKit">
 <meta property="og:type" content="article">
 <meta property="og:title" content="探索 UIAppearance">
-<meta property="og:url" content="http://yoursite.com/2019/04/19/2019-04-23#UIAppearance 原理推测/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/04/23/2019-04-23#UIAppearance 原理推测/index.html">
 <meta property="og:site_name" content="yannmm&#39;s blog">
 <meta property="og:description" content="UIAppearance 是这样一套机制：开发者使用特定接口、以 class 为单位，统一配置对象外观，但不会覆盖之前的设置。本文分析其实现，提出猜测，并验证。 12345678910// 全局配置UIView *appearance = [UIView appearance]; // 获取特定 appearance proxyappearance.backgroundColor = [UICol">
 <meta property="og:locale" content="chinese">
 <meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1g26ydpcotuj30j613m11i.jpg">
 <meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1g27n27snkhj30tg0n2q6s.jpg">
-<meta property="og:updated_time" content="2019-04-23T07:36:24.631Z">
+<meta property="og:updated_time" content="2019-04-23T07:36:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="探索 UIAppearance">
 <meta name="twitter:description" content="UIAppearance 是这样一套机制：开发者使用特定接口、以 class 为单位，统一配置对象外观，但不会覆盖之前的设置。本文分析其实现，提出猜测，并验证。 12345678910// 全局配置UIView *appearance = [UIView appearance]; // 获取特定 appearance proxyappearance.backgroundColor = [UICol">
@@ -123,7 +123,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/04/19/2019-04-23#UIAppearance 原理推测/">
+  <link rel="canonical" href="http://yoursite.com/2019/04/23/2019-04-23#UIAppearance 原理推测/">
 
 
 
@@ -256,7 +256,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/19/2019-04-23#UIAppearance 原理推测/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/23/2019-04-23#UIAppearance 原理推测/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="yannmm">
@@ -285,8 +285,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-19T09:32:14+08:00">
-                2019-04-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-23T15:36:24+08:00">
+                2019-04-23
               </time>
             
 
@@ -411,14 +411,18 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2019/04/20/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/04/20/hello-world/" rel="prev" title="Hello World">
-                Hello World <i class="fa fa-chevron-right"></i>
+              <a href="/2019/04/23/2019-04-23#URL 概念与比较/" rel="prev" title="URL 概念与比较">
+                URL 概念与比较 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -496,7 +500,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -507,7 +511,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -518,7 +522,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
