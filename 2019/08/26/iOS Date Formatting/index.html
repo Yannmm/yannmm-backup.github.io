@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="翻译,Date Format,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文翻译自 maddysoft.com 作为 StackOverflow 的活跃用户，经常解答 iOS、Swift、Objective-C 的相关问题。我发现时间，日期，它们的格式以及相关操作是经常被问起的。因此，本文的目的就在于帮助开发者理清概念，消除疑虑，熟悉用法。 类Swift（3及以后）通过 Date，Calendar，DateFormatter，DateComponents， Timez">
+<meta name="keywords" content="翻译,Date Format">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 日期与时间格式">
+<meta property="og:url" content="http://yoursite.com/2019/08/26/iOS Date Formatting/index.html">
+<meta property="og:site_name" content="yannmm&#39;s blog">
+<meta property="og:description" content="本文翻译自 maddysoft.com 作为 StackOverflow 的活跃用户，经常解答 iOS、Swift、Objective-C 的相关问题。我发现时间，日期，它们的格式以及相关操作是经常被问起的。因此，本文的目的就在于帮助开发者理清概念，消除疑虑，熟悉用法。 类Swift（3及以后）通过 Date，Calendar，DateFormatter，DateComponents， Timez">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-29T08:20:44.199Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS 日期与时间格式">
+<meta name="twitter:description" content="本文翻译自 maddysoft.com 作为 StackOverflow 的活跃用户，经常解答 iOS、Swift、Objective-C 的相关问题。我发现时间，日期，它们的格式以及相关操作是经常被问起的。因此，本文的目的就在于帮助开发者理清概念，消除疑虑，熟悉用法。 类Swift（3及以后）通过 Date，Calendar，DateFormatter，DateComponents， Timez">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/26/iOS Date Formatting/">
+
+
+
+
+
+  <title>iOS 日期与时间格式 | yannmm's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">yannmm's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/26/iOS Date Formatting/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yannmm">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yannmm's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS 日期与时间格式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T09:16:24+08:00">
+                2019-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/代码/" itemprop="url" rel="index">
+                    <span itemprop="name">代码</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文翻译自 <a href="https://www.maddysoft.com/articles/dates.html#formatting" target="_blank" rel="noopener">maddysoft.com</a></p>
+<p>作为 StackOverflow 的活跃用户，经常解答 iOS、Swift、Objective-C 的相关问题。我发现时间，日期，它们的格式以及相关操作是经常被问起的。因此，本文的目的就在于帮助开发者理清概念，消除疑虑，熟悉用法。</p>
+<h3 id="类"><a href="#类" class="headerlink" title="类"></a>类</h3><p>Swift（3及以后）通过 <code>Date</code>，<code>Calendar</code>，<code>DateFormatter</code>，<code>DateComponents</code>， <code>Timezone</code> 和 <code>Locale</code> 表示时间和日期相关概念。相应的 Objective-C 类为 <code>NSDate</code>，<code>NSCalendar</code>，<code>NSDateFormatter</code>，<code>NSDateComponents</code>， <code>NSTimezone</code> 和 <code>NSLocale</code>。2 及以前的 Swift 版本同 OC 一致。</p>
+<p>本文基于 <code>Foundation</code> 框架，使用 Swift 3/4 和 Objective-C 作为示例语言，</p>
+<h4 id="Date"><a href="#Date" class="headerlink" title="Date"></a>Date</h4><p><code>Date</code> 是一切的起点，代表某个时刻。必须指出 <code>Date</code> 不包含时区信息。试想一下“现在”就是一个 <code>Date</code>，就是此时此刻。不论我们身处何地，“现在”都一样，对每个人来说都是相同的。尽管不同地区的当地时间不尽相同，但这并不影响“现在”的意义。</p>
+<p>我们只需在两种情况下考虑时区影响：1) 将字符串转换为 <code>Date</code>；2) 显示 <code>Date</code> 给用户看（或者我们自己 debug 时） 。</p>
+<p>如何创建一个代表“现在”的 <code>Date</code> 对象呢？操作如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// Swift</span><br><span class="line">let now = Date()</span><br><span class="line"></span><br><span class="line">// Objective-C</span><br><span class="line">NSDate *now = [NSDate date];</span><br></pre></td></tr></table></figure>
+<p>很简单吧，但即使这样许多开发者依然感到困惑。因为如果我们 debug 这个对象，把它打印到控制台，就会发现：（假设我们在纽约，当前时间为2018年3月1日下午2点42分）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// Swift</span><br><span class="line">print(now)</span><br><span class="line"></span><br><span class="line">// Objective-C</span><br><span class="line">NSLog(@&quot;%@&quot;, now);</span><br></pre></td></tr></table></figure>
+<p>结果如下：</p>
+<blockquote>
+<p>2018-03-01 19:42:00 +0000</p>
+</blockquote>
+<p>明明是下午2点42，为什么时间变成 19:42 ？ 而 +0000 又是几个意思？</p>
+<p>让我们迅速补充一下背景知识。打印 <code>Date</code>（或者在控制台查看） 实际调用 <code>description</code> （或 <code>debugDescription</code>）。下面两行代码作用相同：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// Swift</span><br><span class="line">print(now)</span><br><span class="line">print(now.description)</span><br><span class="line"></span><br><span class="line">// Objective-C</span><br><span class="line">NSLog(@&quot;%@&quot;, now);</span><br><span class="line">NSLog(@&quot;%@&quot;, now.description);</span><br></pre></td></tr></table></figure>
+<p><code>description</code> 返回 <code>Date</code> 的字符串表示。还记得之前我们说过需要担心时区的情况吗？这就是其中之一。不巧的目前它使用24小时制，UTC 时区实现。</p>
+<p>回到正题， +0000 代表基于 UTC 偏移的时区，前两位对应小时，后两位对应分钟，+ 表示早于。由于默认使用 UTC 时区，所有没有偏移，即 +0000。纽约比 UTC 晚5个小时，所以当地时间2018年3月1日下午2点42分换算为 UTC 时间就是17点42分。</p>
+<p>换一种方式思考：假设你在纽约，正在与身处 UTC 时区的朋友打电话。纽约时间下午2点42分，你说“现在”；与此同时你的朋友看到的时间是19点42分（24小时制）。这两个时间对于你们来说都是“现在”，可以用同一个 <code>Date</code> 表示。尽管时钟的显示不同，但它们指向同一时刻。打印 <code>Date</code> 对应“看表”这个动作，只不过你看的是朋友的表，位于 UTC 时区。这并不会改变 Date 的意义，只不过是基于特定时区展示时间而已。</p>
+<p>你肯定会说这的确很容易使人感到困惑。是的，开发者明明只想看自己时区的时间。所以除了  <code>description</code>，<code>Date</code> 还提供另一个函数 <code>description(with:)</code>，参数是一个 <code>Locale</code> 对象，稍后介绍。目前我们只需填入 <code>.current</code> 。如此就可以看到本地时间啦。</p>
+<p>下面代码根据当前时区和地区显示时间，如果不想用 UTC 的话。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// Swift</span><br><span class="line">print(now.description(with: .current))</span><br><span class="line"></span><br><span class="line">// Objective-C</span><br><span class="line">NSLog(@&quot;%@&quot;, [now descriptionWithLocale:NSLocale.currentLocale]);</span><br></pre></td></tr></table></figure>
+<p>输出结果如下（基于当前时区和地区）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Thursday, March 1, 2018 at 2:42:00 PM Eastern Standard Time</span><br></pre></td></tr></table></figure>
+<p>在 <code>DateFormatter</code> 一节，我们将学习如何定制 <code>Date</code> 的展示样式。</p>
+<h4 id="地区"><a href="#地区" class="headerlink" title="地区"></a>地区</h4><p><code>Locale</code> 代表地区：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Locale 是对语言、文化、技术惯例和标准有关信息的封装。例如表示小数点的符号，年月日顺序等。</span><br></pre></td></tr></table></figure>
+<p>直接影响日期的显示结果：月份和星期的语言，年月日顺序，以及分隔符。</p>
+<p>格式化日期时，默认使用当前用户地区。获取当前地区的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// Swift</span><br><span class="line">let locale = Locale.current</span><br><span class="line"></span><br><span class="line">// Objective-C</span><br><span class="line">NSLocale *locale = NSLocale.currentLocale;</span><br></pre></td></tr></table></figure>
+<p>当然也可以指定地区。首先，我们要知道目标区域代码，一般由语言和国家代码的组成。例如，在 <code>en_CA</code> 表示加拿大英语区；加拿大法语区则对应 <code>fr_CA</code>，其他地区请查阅文档。创建指定地区的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// Swift</span><br><span class="line">let locale = Locale(identifier: &quot;en_CA&quot;)</span><br><span class="line"></span><br><span class="line">// Objective-C</span><br><span class="line">NSLocale *locale = [NSLocale localeWithLocaleIdentifier:@&quot;en_CA&quot;];</span><br></pre></td></tr></table></figure>
+<p>有一个非常特别的地区，后面很多地方都会用到：<code>en_US_POSIX</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// Swift</span><br><span class="line">let posixLocale = Locale(identifier: &quot;en_US_POSIX&quot;)</span><br><span class="line"></span><br><span class="line">// Objective-C</span><br><span class="line">NSLocale *posixLocale = [NSLocale localeWithLocaleIdentifier:@&quot;en_US_POSIX&quot;];</span><br></pre></td></tr></table></figure>
+<h4 id="时区"><a href="#时区" class="headerlink" title="时区"></a>时区</h4><p><code>TimeZone</code> 代表时区。<code>Date</code> 和 <code>String</code> 二者互相转化时必须格外注意时区问题。大多数操默认基于用户当前时区，除了 <code>description</code>，它使用 UTC 时区。</p>
+<p>以下代码获取用户当前时区</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// Swift</span><br><span class="line">let tz = TimeZone.current</span><br><span class="line"></span><br><span class="line">// Objective-C</span><br><span class="line">NSTimeZone *tz = NSTimeZone.systemTimeZone;</span><br></pre></td></tr></table></figure>
+<p>取得时区的方式多种多样：唯一代码，缩写（不唯一），或者基于 UTC 的偏移量（单位秒）。更多细节请查看文档。</p>
+<p>另外建议大家阅读 Wiki 上 <a href="https://en.wikipedia.org/wiki/Coordinated_Universal_Time" target="_blank" rel="noopener">Coordianted Universal Time</a> 下关于时区的章节，以便更好的理解 UTC，Zulu (Z) 以及 GMT。</p>
+<h3 id="DateFormatter"><a href="#DateFormatter" class="headerlink" title="DateFormatter"></a>DateFormatter</h3><p>理解了 <code>Date</code>、<code>Locale</code> 和 <code>TimeZone</code>，我们正式进入日期格式化的讲解。其目的在于允许时间和字符串互相转换。</p>
+<h4 id="日期格式"><a href="#日期格式" class="headerlink" title="日期格式"></a>日期格式</h4><p>使用 <code>DateFormatter</code> 向用户展示日期。通过它输出的字符串已经参考了地区因素，确保结果准确、恰当：月份和星期以当地语言表示，年月日顺序以及分隔符符合习惯。</p>
+<p>默认使用当前用户地区和设备时区，可以通过 <code>locale</code> 和 <code>timeZone</code> 属性进行修改。 </p>
+<p><code>DateFormatter</code> 提供了两种方式定义字符串结果：style（样式）和 format（格式）。推荐使用 前者，它基础地区输出结果。举例来说，如果使用格式，假设结果为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">8/3/18</span><br></pre></td></tr></table></figure>
+<p>根据用户所在的地区，可以理解为 2018年8月3日，2018年3月8日，等等。而样式可以完全避免这些歧义。</p>
+<h4 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h4><p>遇到向用户显示 <code>Date</code> 的需求，恰当的设置 <code>DateFormatter</code> 的样式即可。获得的结果是完全本地化的（默认基于用户当前地区）。如果不想显示时间，将 <code>timeStyle</code> 设置为 <code>.none</code> 即可；这也适用于日期，相应的设置 <code>dateStyle</code> 为 <code>.none</code>。对于要保留的部分，从 <code>.short</code>、<code>.medium</code>、<code>.long</code> 或 <code>.full</code> 中选择一个最符合需求的（具体样式见文档）。不过最终结果还是取决于地区。日期和时间的样式无需一致。</p>
+<p>下面的代码将日期显示为 <code>long</code>，时间显示为 <code>medium</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// Swift</span><br><span class="line">let dfs = DateFormatter()</span><br><span class="line">dfs.dateStyle = .long</span><br><span class="line">dfs.timeStyle = .medium</span><br><span class="line">print(dfs.string(from: date))</span><br><span class="line"></span><br><span class="line">// Objective-C</span><br><span class="line">NSDateFormatter *dfs = [[NSDateFormatter alloc] init];</span><br><span class="line">dfs.dateStyle = NSDateFormatterLongStyle;</span><br><span class="line">dfs.timeStyle = NSDateFormatterMediumStyle;</span><br><span class="line">NSLog(@&quot;%@&quot;, [dfs stringFromDate:now]);</span><br></pre></td></tr></table></figure>
+<p>以2018年3月1日下午2点42分为例，结果如下，第二列表示所使用的地区代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">March 1, 2018 at 2:42:00 PM	 en_US (English/USA)</span><br><span class="line">1 March 2018 at 14:42:00	 en_GB (English/Great Britain)</span><br><span class="line">1. März 2018 um 14:42:00	 de_DE (German/Germany)</span><br><span class="line">1 mars 2018 à 14:42:00	     fr_FR (French/France)</span><br><span class="line">١ مارس، ٢٠١٨، ٢:٤٢:٠٠ م	ar_EG (Arabic/Egypt)</span><br><span class="line">2018年3月1日 下午2:42:00	      zh_CN (Chinese/China)</span><br><span class="line">2018년 3월 1일 오후 2:42:00	   ko_KR (Korean/Korea)</span><br><span class="line">1 марта 2018 г., 14:42:00	 ru_RU (Russian/Russia)</span><br><span class="line">1 de março de 2018 14:42:00	 pt_BR (Portuguese/Brazil)</span><br><span class="line">1 de marzo de 2018, 2:42:00 p.m.	es_CO (Spanish/Colombia)</span><br></pre></td></tr></table></figure>
+<p>还要考虑到系统设置对于结果的影响。例如，iOS 允许用户选择 12 或 24 小时制，优先级高于地区习惯。macOS 中，用户可以在设置页面具体定义日期和时间格式。这也是推荐使用样式的另一个原因，系统设置将被考虑在内。</p>
+<p>此前我们提到过使用 <code>description(with:)</code>方法根据指定地区和当前时区输出结果。这等同于 设置 <code>DateFormatter</code> 的日期和时间样式为 <code>.full</code>。</p>
+<h4 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h4><p>尽管通过样式定义规则，显示给用户肯定万无一失。但实际上不可避免的仍需要按照特定格式转换 <code>Date</code> 为 <code>String</code>。例如，将日期发送给服务器或者 API，而对方对格式有要求。此时就只能使用格式。</p>
+<p>那么如何定义日期格式呢？查看 <code>dateFormate</code> 的文档解释，我们发现提到了 <a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/DataFormatting/DataFormatting.html" target="_blank" rel="noopener">Data Formatting Guide</a>。打开链接，在第一页又会指向另一个页面，<a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/DataFormatting/Articles/dfDateFormatting10_4.html#//apple_ref/doc/uid/TP40002369-SW1" target="_blank" rel="noopener">Date Formatters</a>。其中 <code>Fixed Formats</code> 小节罗列了各个 OS X 和 iOS 版本所支持的具体技术标准。Unicode Technical Standard 第35号是对日期/时间格式进行具体定义的技术文档。其最新版本在<a href="https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns" target="_blank" rel="noopener">这里</a>。注意不是所有系统都支持最新技术标准。</p>
+<p>确定格式后，就要使用合适的占位符，分隔符和常量字符着手编写。</p>
+<p>请看下面例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// Swift</span><br><span class="line">let dff = DateFormatter()</span><br><span class="line">dff.dateFormat = &quot;yyyy-MM-dd HH:mm:ss&quot;</span><br><span class="line">dff.locale = Locale(identifier: &quot;en_US_POSIX&quot;)</span><br><span class="line">print(dff.string(from: date))</span><br><span class="line"></span><br><span class="line">// Objective-C</span><br><span class="line">NSDateFormatter *dff = [[NSDateFormatter alloc] init];</span><br><span class="line">dff.dateFormat = @&quot;yyyy-MM-dd HH:mm:ss&quot;;</span><br><span class="line">NSLog(@&quot;%@&quot;, [dff stringFromDate:date]);</span><br></pre></td></tr></table></figure>
+<p>2018年3月1号下午2点42分的对应结果为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2018-03-01 14:42:00</span><br></pre></td></tr></table></figure>
+<p>这种方式默认使用用户当前时区。当然也可以通过设置 <code>timeZone</code> 属性选择其他时区。注意这里使用了特殊地区 <code>en_US_POSIX</code>，详细解释，请看</p>
+<p>下面是例子关于格式和结果，目标是 2018年3月1日下午2:42，时区为 Eastern Daylight Time(UTC-5)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">yyyy-MM-dd	2018-03-01</span><br><span class="line">h:mm a	2:42 pm</span><br><span class="line">yyyy-MM-dd&apos;T&apos;HH:mm:ss.SSSZZZZZ	2018-03-01T14:42:00.000-05:00</span><br><span class="line">dd/MM/yy	01/03/18</span><br><span class="line">d.M.y	1.3.2018</span><br><span class="line">d-MMM-yyyy	1-Mar-2018</span><br><span class="line">HH:mm:ss Z	14:42:00 -0500</span><br></pre></td></tr></table></figure>
+<p>编写格式字符串时，请记住以下几点：</p>
+<ul>
+<li>任何字符，请以单引号饮用。只有不需要转译的字符才需要用括号引用。标点符号，数组，空格等不需要引用。</li>
+</ul>
+<h3 id="DateFormatter-1"><a href="#DateFormatter-1" class="headerlink" title="DateFormatter"></a>DateFormatter</h3><p>现在我们已经理解了 <code>Date</code>，<code>Locale</code> 和 <code>TimeZone</code>，是时候介绍格式化了。通过格式化，我们可以将日期在 <code>Date</code> 和 <code>String</code> 之间互相转换。</p>
+<h4 id="格式化日期"><a href="#格式化日期" class="headerlink" title="格式化日期"></a>格式化日期</h4><p>我们经常需要向用户展示日期。这时就应该使用 <code>DateFormatter</code>。它允许我们将 <code>Date</code> 转换为 <code>String</code>，同时考虑到 <code>地区</code>。这样一来，日期就可以得到恰当的格式化。月份、星期以恰当的语言显示；年月日的顺序符合当地习惯，分隔符也会被本地化。</p>
+<p>日期格式默认使用当前用户地区和设备当前时区。通过设置 <code>locale</code> 和 <code>timeZone</code> 属性，我们可以进行切换。</p>
+<p>将 <code>Date</code> 转换为 <code>String</code> 时，<code>DateFormatter</code> 允许我们通过两种方式定义规则：样式（style）和 格式（format）。推荐使用前者。因为这样可以确保符合用户预期。避免使用特定格式。例如，我们使用了某种格式，其输出结果为：</p>
+<blockquote>
+<p>8/3/18</p>
+</blockquote>
+<p>根据用户所在的地区，这串结果可以理解为 2018年8月3日，2018年3月8日，或者其他意义。选择 style 可以免除这些疑惑，结果会自动根据用户地区来计算，避免歧义。</p>
+<h4 id="日期和时间样式"><a href="#日期和时间样式" class="headerlink" title="日期和时间样式"></a>日期和时间样式</h4><p>对于日期展示来说，我们最好通过样式配置合适的 date formatter。这样一来，结果将自动适配区域（默认为用户的当前区域）。假设我们只想显示日期，将时间样式（timeStyle）设置为 <code>.none</code> 即可。同样，如果只想显示时间，则将日期样式（dateStyle）设置为 <code>.none</code>。对于想展示的部分，有 <code>.short</code>、<code>.medium</code>、<code>.long</code> 和 <code>.full</code> 可供选择。<code>DateFormatter.Style</code> 的文档对细节提供了足量描述。但最终结果取决于地区。日期和时间的样式可以不同，无需一致。</p>
+<p>下面的例子展示了长日期，中时间：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// Swift</span><br><span class="line">let dfs = DateFormatter()</span><br><span class="line">dfs.dateStyle = .long</span><br><span class="line">dfs.timeStyle = .medium</span><br><span class="line">print(dfs.string(from: date))</span><br><span class="line"></span><br><span class="line">// Objective-C</span><br><span class="line">NSDateFormatter *dfs = [[NSDateFormatter alloc] init];</span><br><span class="line">dfs.dateStyle = NSDateFormatterLongStyle;</span><br><span class="line">dfs.timeStyle = NSDateFormatterMediumStyle;</span><br><span class="line">NSLog(@&quot;%@&quot;, [dfs stringFromDate:now]);</span><br></pre></td></tr></table></figure>
+<p>结果如下，第二列是地区，例子所用的日期为 2018年3月1日下午2点42分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">March 1, 2018 at 2:42:00 PM	en_US (English/USA)</span><br><span class="line">1 March 2018 at 14:42:00	en_GB (English/Great Britain)</span><br><span class="line">1. März 2018 um 14:42:00	de_DE (German/Germany)</span><br><span class="line">1 mars 2018 à 14:42:00	fr_FR (French/France)</span><br><span class="line">١ مارس، ٢٠١٨، ٢:٤٢:٠٠ م	ar_EG (Arabic/Egypt)</span><br><span class="line">2018年3月1日 下午2:42:00	zh_CN (Chinese/China)</span><br><span class="line">2018년 3월 1일 오후 2:42:00	ko_KR (Korean/Korea)</span><br><span class="line">1 марта 2018 г., 14:42:00	ru_RU (Russian/Russia)</span><br><span class="line">1 de março de 2018 14:42:00	pt_BR (Portuguese/Brazil)</span><br><span class="line">1 de marzo de 2018, 2:42:00 p.m.	es_CO (Spanish/Colombia)</span><br></pre></td></tr></table></figure>
+<p>另外需要注意最终结果还会受到 iOS 设置影响。例如，用户可以选择12/24小时制。这项设置将覆盖地区设置。 (HH24小时，hh12小时)。macOS 允许用户在设置页面详细定义日期和时间格式。这是我们尽量使用样式的另一个理由，配合系统。</p>
+<p>早前我们提到过  <code>description(with:)</code> 方法，它使用当前时区和地区打印 <code>Date</code>。其输出结果与使用完全日期和时间的 date formatter 一致。</p>
+<h4 id="日期格式-1"><a href="#日期格式-1" class="headerlink" title="日期格式"></a>日期格式</h4><p>尽管我们强力推荐使用样式，但有时还是不可避免的使用格式。比如我们需要将日期按照特定格式转换为字符串发送给 API 或服务器。此时，就不得不使用 dateformatter 的格式。</p>
+<p>要通过格式定义规则，必须提供格式字符串。通过查看文档，我们发现 <code>dateFormate</code> 指向 <a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/DataFormatting/DataFormatting.html" target="_blank" rel="noopener">Date Formatting Guide</a>，后者又指向 <a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/DataFormatting/Articles/dfDateFormatting10_4.html#//apple_ref/doc/uid/TP40002369-SW1" target="_blank" rel="noopener">Date Formatter</a>。查看 Fixed Formats 小节，我们发现 Unicode 35号技术标准，其是对于所有支持格式的解释。最新版本可以在<a href="https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns" target="_blank" rel="noopener">这里找到</a>。注意，最新版本可能包含当前 SDK 不支持的特性。</p>
+<p>一旦确定转换的目标格式，下一步就是使用字段符号、标点、常量字符编写格式字符串。（格式字符串 = 标点+常量+filed）</p>
+<p>下面例子根据格式字符串将 <code>Date</code> 转换为 <code>String</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// Swift</span><br><span class="line">let dff = DateFormatter()</span><br><span class="line">dff.dateFormat = &quot;yyyy-MM-dd HH:mm:ss&quot;</span><br><span class="line">// dff.locale = Locale(identifier: &quot;en_US_POSIX&quot;)</span><br><span class="line">print(dff.string(from: date))</span><br><span class="line"></span><br><span class="line">// Objective-C</span><br><span class="line">NSDateFormatter *dff = [[NSDateFormatter alloc] init];</span><br><span class="line">dff.dateFormat = @&quot;yyyy-MM-dd HH:mm:ss&quot;;</span><br><span class="line">NSLog(@&quot;%@&quot;, [dff stringFromDate:date]);</span><br></pre></td></tr></table></figure>
+<p>转换2018年3月1日下午2:42分的转换结果如下：</p>
+<blockquote>
+<p>2018-03-01 14:42:00</p>
+</blockquote>
+<p>请注意 date formatter 默认使用当前时区。如果想要结果根据特定时区显示，需要设置 <code>timeZone</code> 属性。同样注意 <code>en_US_POSIX</code> 的使用，详见本节末尾列表的最后一点。</p>
+<p>下面是一些格式字符串及其结果，时间为2018年3月1日下午2点42分，Eastern Daylight Time 即 UTC-5。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yyyy-MM-dd	2018-03-01</span><br><span class="line">h:mm a	2:42 pm</span><br><span class="line">yyyy-MM-dd&apos;T&apos;HH:mm:ss.SSSZZZZZ	2018-03-01T14:42:00.000-05:00</span><br><span class="line">dd/MM/yy	01/03/18</span><br><span class="line">d.M.y	1.3.2018</span><br><span class="line">d-MMM-yyyy	1-Mar-2018</span><br><span class="line">HH:mm:ss Z	14:42:00 -0500</span><br></pre></td></tr></table></figure>
+<p>定义格式字符串时的注意事项：</p>
+<ul>
+<li>常量字符用单引号区分。除此之外，诸如标点、数字、空格等无需单独区分。</li>
+<li>单引号本身作为常量字符使用时，要额外加单引号。</li>
+<li>占位符区分大小写。例如：<code>M</code> 表示月份；<code>m</code> 表示分钟，请勿混淆。</li>
+<li><code>y</code> 表示年。尽管 <code>Y</code> 和 <code>y</code> 的结果一样，但 <code>Y</code> 实际上代表其他意义。</li>
+<li><code>h</code> 对应12小时制；<code>H</code> 对应24小时制。前者最好配合 <code>a</code> 使用，即 <code>AM/PM</code>；后者一般不需要。</li>
+<li>要精确到毫秒，使用 <code>ss.SSS</code>。<code>S</code> 的数量代表精度。，通常3位即可。</li>
+<li>避免使用 <code>z</code> 或 <code>v</code> 表示时区，因为这样产生的时区代码并不唯一。最好使用基于 UTC 的便宜时间或时区 ID。</li>
+<li>重要的事情再说一遍：展示 <code>Date</code> 务必使用样式。如果样式枚举无法满足需求，则使用模版。</li>
+<li>除非为月份和星期指定语言，默认一律使用  <code>en_US_POSIX</code> 作为地区。这个地区选项能够确保结果严格遵守格式字符串定义的规则，忽略系统设置，月份和星期用英语表示。否则，我们可能获得12小时或24小时两种不同结果。依照惯例，发送给服务器的内容必须是英文。</li>
+</ul>
+<h4 id="模版"><a href="#模版" class="headerlink" title="模版"></a>模版</h4><p>样式只有四种，有可能无法满足需求。假设只显示月日，省略年。<code>DateFormatter</code> 提供模版属性支持这类需求。定义模版所使用的占位符与 <code>dateFormat</code> 一样，但无需其他字符，也不同担心字段顺序，其他的就交给 <code>DateFormatter</code>处理。注意，先设置地区，在配置模版。</p>
+<p>下面的例子只显示月份，日期和小时。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// Swift</span><br><span class="line">let dft = DateFormatter()</span><br><span class="line">dft.setLocalizedDateFormatFromTemplate(&quot;MMMdh&quot;)</span><br><span class="line">print(dft.string(from: date))</span><br><span class="line"></span><br><span class="line">// Objective-C</span><br><span class="line">NSDateFormatter *dft = [[NSDateFormatter alloc] init];</span><br><span class="line">[dft setLocalizedDateFormatFromTemplate:@&quot;MMdh&quot;];</span><br><span class="line">NSLog(@&quot;%@&quot;, [dft stringFromDate:date]);</span><br></pre></td></tr></table></figure>
+<p>结果如下，第二列是地区，例子所用的日期为 2018年3月1日下午2点42分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Mar 1, 2 PM	en_US (English/USA)	MMM d, h a</span><br><span class="line">1 Mar, 2 pm	en_GB (English/Great Britian)	d MMM, h a</span><br><span class="line">1. März, 2 PM	de_DE (German/Germany)	d. MMM, h a</span><br><span class="line">1 mars à 2 PM	fr_FR (French/France)	d MMM &apos;à&apos; h a</span><br><span class="line">١ مارس، ٢ م	ar_EG (Arabic/Egypt)	d MMM، h a</span><br><span class="line">3月1日 下午2时	zh_CN (Chinese/China)	MMM d, h a</span><br><span class="line">3월 1일 오후 2시	ko_KR (Korean/Korea)	MMM d일 a h시</span><br><span class="line">1 марта, 2 ПП	ru_RU (Russian/Russia)	d MMM, h a</span><br><span class="line">1 de mar 2 PM	pt_BR (Portuguese/Brazil)	d &apos;de&apos; MMM h a</span><br><span class="line">1 de mar., 2 p.m.	es_CO (Spanish/Colombia)	d &apos;de&apos; MMM, h a</span><br></pre></td></tr></table></figure>
+<h3 id="ISO-8601"><a href="#ISO-8601" class="headerlink" title="ISO 8601"></a>ISO 8601</h3><p>ISO 针对日期格式指定了相关标准，<a href="https://www.iso.org/iso-8601-date-and-time-format.html" target="_blank" rel="noopener">ISO 8601</a>。此时最好使用 <code>ISO8601DateFormatter</code> 而非 <code>DateFormatter</code>。</p>
+<h4 id="DateIntervalFormatter"><a href="#DateIntervalFormatter" class="headerlink" title="DateIntervalFormatter"></a>DateIntervalFormatter</h4><p>通过两个日期表示一个时间段时，<code>DateIntervalFormatter</code> 可以用来给出这个时间段的本地化描述。</p>
+<h4 id="其他选择"><a href="#其他选择" class="headerlink" title="其他选择"></a>其他选择</h4><p>事实上不借助 <code>DateFormatter</code> 依然可以将 <code>Date</code> 转换为 <code>String</code>。但是这种方式仅适用于 debug，千万不要试图将结果展示给用户，或者发送给 API  服务器。下面代码中，<code>date</code> 是一个 <code>Date</code> 对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// Swift</span><br><span class="line">let str = &quot;\(date)&quot;</span><br><span class="line">let str = String(describing: date)</span><br><span class="line">let str = date.description</span><br><span class="line">let str = date.description(with: nil)</span><br><span class="line">let str = date.description(with: .current)</span><br><span class="line">let str = date.debugDescription</span><br><span class="line"></span><br><span class="line">// Objective-C</span><br><span class="line">NSString *str = [NSString stringWithFormat:@&quot;%@&quot;, date];</span><br><span class="line">NSString *str = date.description;</span><br><span class="line">NSString *str = [date descriptionWithLocale:nil];</span><br><span class="line">NSString *str = [date descriptionWithLocale:NSLocal.currentLocale];</span><br></pre></td></tr></table></figure>
+<p>之所以只能用于 debug，是因为文档并未说明它们的具体结果，此外 <code>Date description</code> 的文档甚至明确表示：</p>
+<blockquote>
+<p>The representation is useful for debugging only.</p>
+</blockquote>
+<h4 id="解析字符串"><a href="#解析字符串" class="headerlink" title="解析字符串"></a>解析字符串</h4><p>假设给我们一个表示日期的字符串，如何将其转换为 <code>Date</code> 呢？显然这个字符串可以来自 API 或服务器，常见于 JSON 结构中。</p>
+<p>做法几乎与 Date 转 String 相同。首先根据日期字符串定义格式，必须囊括所有常量字符和标点。此外由于字符串的格式是固定的，地区应使用 <code>en_US_POSIX</code>。</p>
+<p>完整规范请查看 <a href="https://www.maddysoft.com/articles/dates.html#formattingformats" target="_blank" rel="noopener">Date Formats</a> 。不管怎样，规则一定要符合要解析的字符串的格式。</p>
+<p>下面例子解析从 JSON 中取出的字符串。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// Swift</span><br><span class="line">let dateString = &quot;2018-03-15T16:37:29Z&quot; // the date string to be parsed</span><br><span class="line">let df = DateFormatter()</span><br><span class="line">df.locale = Locale(identifier: &quot;en_US_POSIX&quot;)</span><br><span class="line">df.dateFormat = &quot;yyyy-MM-dd&apos;T&apos;HH:mm:ssX&quot;</span><br><span class="line">if let date = df.date(from: dateString) &#123;</span><br><span class="line">    // do something with the date</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    print(&quot;Unable to parse date string&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Objective-C</span><br><span class="line">NSString *dateString = &quot;2018-03-15T16:37:29Z&quot;; // the date string to be parsed</span><br><span class="line">NSDateFormatter *df = [[NSDateFormatter alloc] init];</span><br><span class="line">df.locale = [NSLocale localeWithLocaleIdentifier:@&quot;en_US_POSIX&quot;];</span><br><span class="line">df.dateFormat = @&quot;yyyy-MM-dd&apos;T&apos;HH:mm:ssX&quot;;</span><br><span class="line">NSDate *date = [df dateFromString:dateString];</span><br><span class="line">if (date) &#123;</span><br><span class="line">    // do something with the date</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    NSLog(@&quot;Unable to parse date string&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是：</p>
+<ul>
+<li>如果字符串符合 ISO 8601 标准（如上例），最好使用 <code>ISO8601DateFormatter</code>。</li>
+<li>末尾的 <code>Z</code> 表示时区。<code>Z</code> 念 “Zulu”，表示 +0000，即 UTC 时区。</li>
+<li>如果字符串已经包含时区，则没有必要再次设置 <code>DateFormatter</code> 的时区。</li>
+<li>格式字符串务必包含常量字符 <code>T</code>。</li>
+<li>时区的占位符是 <code>X</code>。虽然人们常常用 <code>Z</code> 表示时区，但严格来说这是不正确的用法。不过 <code>DateFormatter</code> 在实际解析时会自动纠正这类错误。不过，最好按规则使用。</li>
+<li><code>date(from:)</code> 返回 <code>Date</code>。但如果无法解析，则返回空。所以，对于来自 API 或服务器的数据，必须校验，编写防御代码。不要对数据做任何假设，如果服务器改变格式，就会导致程序崩溃。务必优雅的处理意外状况。</li>
+</ul>
+<p>我们通常使用固定格式 + <code>en_US_POSIX</code> 作为地区的方式解析字符串，极少使用样式。这是因为其格式不固定，而且还受地区影响。</p>
+<p>最后，务必注意字符串不适合作为数据使用。从服务器或 API 获取到的字符串，要转换为 <code>Date</code>，在此基础之上进行操作。要显示给用户，就通过 <code>DateFormatter</code> 转换。</p>
+<h4 id="转换日期字符串"><a href="#转换日期字符串" class="headerlink" title="转换日期字符串"></a>转换日期字符串</h4><p>我们还会经常遇到这种情况：将一种格式的日期字符串，转换为另一种格式的日期字符串。做饭很简单：1) 转换为 <code>Date</code> 2) 借助 <code>DateFormatter</code> 格式化。</p>
+<p>下面代码将 <code>2018-03-15 09:45:30 +02:00</code> 转换为更适合用户阅读的格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">// Swift</span><br><span class="line">let dateString = &quot;2018-03-15 09:45:30 +02:00&quot; // the date string to be parsed</span><br><span class="line">print(dateString)</span><br><span class="line">let df1 = DateFormatter()</span><br><span class="line">df1.locale = Locale(identifier: &quot;en_US_POSIX&quot;)</span><br><span class="line">df1.dateFormat = &quot;yyyy-MM-dd HH:mm:ss ZZZZZ&quot;</span><br><span class="line">if let date = df1.date(from: dateString) &#123;</span><br><span class="line">    print(date)</span><br><span class="line">    let df2 = DateFormatter()</span><br><span class="line">    df2.dateStyle = .short</span><br><span class="line">    df2.timeStyle = .short</span><br><span class="line">    let string = df2.string(from: date)</span><br><span class="line">    print(string)</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    print(&quot;Unable to parse date string&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Objective-C</span><br><span class="line">NSString *dateString = &quot;2018-03-15 09:45:30 +02:00&quot;; // the date string to be parsed</span><br><span class="line">NSLog(@&quot;%@&quot;, dateString);</span><br><span class="line">NSDateFormatter *df1 = [[NSDateFormatter alloc] init];</span><br><span class="line">df1.locale = [NSLocale localeWithLocaleIdentifier:@&quot;en_US_POSIX&quot;];</span><br><span class="line">df1.dateFormat = @&quot;yyyy-MM-dd HH:mm:ss ZZZZZ&quot;;</span><br><span class="line">NSDate *date = [df1 dateFromString:dateString];</span><br><span class="line">if (date) &#123;</span><br><span class="line">    NSLog(@&quot;%@&quot;, date);</span><br><span class="line">    NSDateFormatter *df2 = [[NSDateFormatter alloc] init];</span><br><span class="line">    df2.dateStyle = NSDateFormatterShortStyle;</span><br><span class="line">    df2.timeStyle = NSDateFormatterShortStyle;</span><br><span class="line">    NSString *string = [df2 stringFromDate:date];</span><br><span class="line">    NSLog(@&quot;%@&quot;, string);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    NSLog(@&quot;Unable to parse date string&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>显然结果根据地区和时区有所不同。假设我们在纽约，地区代码 en_US ，时区 UTC-4（夏时令），结果为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2018-03-15 09:45:30 +02:00</span><br><span class="line">2018-03-15 07:45:30 +0000</span><br><span class="line">3/15/18, 3:45 AM</span><br></pre></td></tr></table></figure>
+<p>结果与原始字符串大相径庭，但它们所表示的时间都是正确的。原字符串所在的时区早于 UTC 两小时。第二行是 UTC 时间，它们之间时差两个小时。最后是当前时区，落后 UTC 四个小时。因此最开始的时间相差六小时。</p>
+<h3 id="备注（译者）"><a href="#备注（译者）" class="headerlink" title="备注（译者）"></a>备注（译者）</h3><ul>
+<li><a href="https://nsdateformatter.com/" target="_blank" rel="noopener">NSDateFormatter.com</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/翻译/" rel="tag"># 翻译</a>
+          
+            <a href="/tags/Date-Format/" rel="tag"># Date Format</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/11/Making a Pull Request/" rel="next" title="发起 Pull Request">
+                <i class="fa fa-chevron-left"></i> 发起 Pull Request
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">yannmm</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#类"><span class="nav-number">1.</span> <span class="nav-text">类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Date"><span class="nav-number">1.1.</span> <span class="nav-text">Date</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#地区"><span class="nav-number">1.2.</span> <span class="nav-text">地区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#时区"><span class="nav-number">1.3.</span> <span class="nav-text">时区</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DateFormatter"><span class="nav-number">2.</span> <span class="nav-text">DateFormatter</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#日期格式"><span class="nav-number">2.1.</span> <span class="nav-text">日期格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#样式"><span class="nav-number">2.2.</span> <span class="nav-text">样式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#格式"><span class="nav-number">2.3.</span> <span class="nav-text">格式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DateFormatter-1"><span class="nav-number">3.</span> <span class="nav-text">DateFormatter</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#格式化日期"><span class="nav-number">3.1.</span> <span class="nav-text">格式化日期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#日期和时间样式"><span class="nav-number">3.2.</span> <span class="nav-text">日期和时间样式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#日期格式-1"><span class="nav-number">3.3.</span> <span class="nav-text">日期格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模版"><span class="nav-number">3.4.</span> <span class="nav-text">模版</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ISO-8601"><span class="nav-number">4.</span> <span class="nav-text">ISO 8601</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DateIntervalFormatter"><span class="nav-number">4.1.</span> <span class="nav-text">DateIntervalFormatter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他选择"><span class="nav-number">4.2.</span> <span class="nav-text">其他选择</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解析字符串"><span class="nav-number">4.3.</span> <span class="nav-text">解析字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#转换日期字符串"><span class="nav-number">4.4.</span> <span class="nav-text">转换日期字符串</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#备注（译者）"><span class="nav-number">5.</span> <span class="nav-text">备注（译者）</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yannmm</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
